@@ -31,6 +31,12 @@ import streamlit as st
 # Data handling dependencies
 import pandas as pd
 import numpy as np
+import pickle
+import copy
+from surprise import Reader, Dataset
+from surprise import SVD, NormalPredictor, BaselineOnly, KNNBasic, NMF
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
 
 # Custom Libraries
 from utils.data_loader import load_movie_titles
