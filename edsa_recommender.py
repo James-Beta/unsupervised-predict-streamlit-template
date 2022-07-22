@@ -27,7 +27,7 @@
 """
 # Streamlit dependencies
 import streamlit as st
-st.set_page_config(layout=‘wide’)
+st.set_page_config(layout = 'wide')
 # Data handling dependencies
 import pandas as pd
 import numpy as np
