@@ -134,62 +134,62 @@ def main():
     if page_selection == "Explore the Data":
         eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
         eda_selection = st.selectbox("Select feature to explore", eda)
-        if eda_selection == "Latest Movies":
-            st.title("Latest Movies")
-            st.write("")
-            col1, col2 = st.columns(2)
-            with col1:
-                gen = ["All"]
-                gen1 = ratings_df['genres'].to_list()
-                gen = gen + gen1
-                genre = st.selectbox("Select genre to explore", gen)
-                if genre != "All":
-                    ratings_df = ratings_df[ratings_df['genre'] == genre]
+#         if eda_selection == "Latest Movies":
+#             st.title("Latest Movies")
+#             st.write("")
+#             col1, col2 = st.columns(2)
+#             with col1:
+#                 gen = ["All"]
+#                 gen1 = ratings_df['genres'].to_list()
+#                 gen = gen + gen1
+#                 genre = st.selectbox("Select genre to explore", gen)
+#                 if genre != "All":
+#                     ratings_df = ratings_df[ratings_df['genre'] == genre]
 
-            with col2:
-                dir = ['All']
-                dir1 = ratings_df["director"].to_list()
-                dir = dir + dir1
-                director = st.selectbox("Select Director:", dir)
-                if director != "ALL":
-                    ratings_df = ratings_df[ratings_df['director'] == director]
+#             with col2:
+#                 dir = ['All']
+#                 dir1 = ratings_df["director"].to_list()
+#                 dir = dir + dir1
+#                 director = st.selectbox("Select Director:", dir)
+#                 if director != "ALL":
+#                     ratings_df = ratings_df[ratings_df['director'] == director]
 
 
-        if eda_selection == "Popular Movies":
-            st.title("Popular Movies")
-            st.write("")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                gen = ["All"]
-                gen1 = ratings_df['genres'].to_list()
-                gen = gen + gen1
-                genre = st.selectbox("Select genre to explore", gen)
-                if genre != "All":
-                    ratings_df = ratings_df[ratings_df['genre'] == genre]
+#         if eda_selection == "Popular Movies":
+#             st.title("Popular Movies")
+#             st.write("")
+#             col1, col2, col3 = st.columns(3)
+#             with col1:
+#                 gen = ["All"]
+#                 gen1 = ratings_df['genres'].to_list()
+#                 gen = gen + gen1
+#                 genre = st.selectbox("Select genre to explore", gen)
+#                 if genre != "All":
+#                     ratings_df = ratings_df[ratings_df['genre'] == genre]
 
-            with col2:
-                dir = ['All']
-                dir1 = ratings_df["director"].to_list()
-                dir = dir + dir1
-                director = st.selectbox("Select Director:", dir)
-                if director != "ALL":
-                    ratings_df = ratings_df[ratings_df['director'] == director]
+#             with col2:
+#                 dir = ['All']
+#                 dir1 = ratings_df["director"].to_list()
+#                 dir = dir + dir1
+#                 director = st.selectbox("Select Director:", dir)
+#                 if director != "ALL":
+#                     ratings_df = ratings_df[ratings_df['director'] == director]
 
-            #with col3:
+#             #with col3:
 
-        if eda_selection == "Popular Directors":
-            st.title("Popular Directors")
-            st.write("")
-            col1, col2 = st.columns(2)
-            with col1:
-                gen = ["All"]
-                gen1 = ratings_df['genres'].to_list()
-                gen = gen + gen1
-                genre = st.selectbox("Select genre to explore", gen)
-                if genre != "All":
-                    df = ratings_df[ratings_df['genre'] == genre]
+#         if eda_selection == "Popular Directors":
+#             st.title("Popular Directors")
+#             st.write("")
+#             col1, col2 = st.columns(2)
+#             with col1:
+#                 gen = ["All"]
+#                 gen1 = ratings_df['genres'].to_list()
+#                 gen = gen + gen1
+#                 genre = st.selectbox("Select genre to explore", gen)
+#                 if genre != "All":
+#                     df = ratings_df[ratings_df['genre'] == genre]
 
-            with col2:
+#             #with col2:
 
 
 
