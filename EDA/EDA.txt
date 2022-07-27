@@ -1,0 +1,12 @@
+def join_df(df, df1, df2):
+	df = df.join(df1, on = 'movieId', how = 'left')
+	df = df.join(df2, on = 'movieId', how = 'left')
+	return df
+#returns all movies with above 1000 ratings
+#removes rows with missing info
+def count_df(ratings_df):
+	ratings_df = ratings_df.dropna()
+
+def prep_dir(ratings_df):	
+	counted_df = ratings_df.groupby(['director'])['rating'].mean().sort_values(ascending = false)
+	

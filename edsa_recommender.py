@@ -27,7 +27,7 @@
 """
 # Streamlit dependencies
 import streamlit as st
-st.set_page_config(layout = 'wide')
+st.set_page_config(layout='wide')
 # Data handling dependencies
 import pandas as pd
 import numpy as np
@@ -37,7 +37,6 @@ from utils.data_loader import load_movie_titles
 from recommenders.collaborative_based import collab_model
 from recommenders.content_based import content_model
 import base64
-
 
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image_file:
@@ -56,6 +55,9 @@ def add_bg_from_local(image_file):
 add_bg_from_local('resources/imgs/Background.png')
 
 # Data Loading
+movies_df =  pd.read_csv('resources/data/movies.csv', index_col='movieId')
+imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
+
 title_list = load_movie_titles('resources/data/movies.csv')
 
 # App declaration
@@ -63,7 +65,7 @@ def main():
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Solution Overview"]
+    page_options = ["Recommender System","Solution Overview", "Welcome", "Explore the Data"]
 
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
@@ -124,6 +126,71 @@ def main():
 
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
+    if page_selection == "Welcome":
+        st.title("Solution Overview")
+        st.write("Hello, welcome to S.H.U.J.A.A")
+
+
+    if page_selection == "Explore the Data":
+        eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
+        eda_selection = st.selectbox("Select feature to explore", eda)
+        if eda_selection == "Latest Movies":
+            st.title("Latest Movies")
+            st.write("")
+            col1, col2 = st.columns(2)
+            with col1:
+                gen = ["All"]
+                gen1 = ratings_df['genres'].to_list()
+                gen = gen + gen1
+                genre = st.selectbox("Select genre to explore", gen)
+                if genre != "All":
+                    ratings_df = ratings_df[ratings_df['genre'] == genre]
+
+            with col2:
+                dir = ['All']
+                dir1 = ratings_df["director"].to_list()
+                dir = dir + dir1
+                director = st.selectbox("Select Director:", dir)
+                if director != "ALL":
+                    ratings_df = ratings_df[ratings_df['director'] == director]
+
+
+        if eda_selection == "Popular Movies":
+            st.title("Popular Movies")
+            st.write("")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                gen = ["All"]
+                gen1 = ratings_df['genres'].to_list()
+                gen = gen + gen1
+                genre = st.selectbox("Select genre to explore", gen)
+                if genre != "All":
+                    ratings_df = ratings_df[ratings_df['genre'] == genre]
+
+            with col2:
+                dir = ['All']
+                dir1 = ratings_df["director"].to_list()
+                dir = dir + dir1
+                director = st.selectbox("Select Director:", dir)
+                if director != "ALL":
+                    ratings_df = ratings_df[ratings_df['director'] == director]
+
+            with col3:
+
+        if eda_selection == "Popular Directors":
+            st.title("Popular Directors")
+            st.write("")
+            col1, col2 = st.columns(2)
+            with col1:
+                gen = ["All"]
+                gen1 = ratings_df['genres'].to_list()
+                gen = gen + gen1
+                genre = st.selectbox("Select genre to explore", gen)
+                if genre != "All":
+                    df = ratings_df[ratings_df['genre'] == genre]
+
+            with col2:
+
 
 
 if __name__ == '__main__':

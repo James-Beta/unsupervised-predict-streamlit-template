@@ -61,7 +61,7 @@ def content_model(movie_list,top_n=10):
     movies['keyWords'] = movies['genres'].str.replace('|', ' ')
     # Subset of the data
     data = movies[14000:26000]
-    
+
     # Instantiating and generating the count matrix
     count_vec = CountVectorizer()
     count_matrix = count_vec.fit_transform(data['keyWords'])
