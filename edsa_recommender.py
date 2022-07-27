@@ -56,7 +56,7 @@ add_bg_from_local('resources/imgs/Background.png')
 
 # Data Loading
 movies_df =  pd.read_csv('resources/data/movies.csv', index_col='movieId')
-imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
+#imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
 
 title_list = load_movie_titles('resources/data/movies.csv')
 
