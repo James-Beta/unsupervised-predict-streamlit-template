@@ -175,7 +175,7 @@ def main():
                 if director != "ALL":
                     ratings_df = ratings_df[ratings_df['director'] == director]
 
-            with col3:
+            #with col3:
 
         if eda_selection == "Popular Directors":
             st.title("Popular Directors")
