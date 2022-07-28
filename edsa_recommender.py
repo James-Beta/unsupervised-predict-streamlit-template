@@ -134,6 +134,12 @@ def main():
 
 
     if page_selection == "Explore the Data":
+	def join_df(df, df1, df2):
+		ratings_df = df.join(df1, on = 'movieId', how = 'left')
+		ratings_df = ratings_df.join(df2, on = 'movieId', how = 'left')
+		ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1) 
+		return ratings_df
+	
 	def get_cast(ratings_df):
 		ratings_df = ratings_df.copy()
 		ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
@@ -164,6 +170,13 @@ def main():
 		ratings_df = get_genres(ratings_df)
 		ratings_df = get_release_years(ratings_df)
 		return ratings_df
+	def count_df(ratings_df, k):
+		ratings_df = ratings_df.dropna()
+		ratings_df['frequency'] = ratings_df.groupby('title')['title'].transform('count')
+		ratings_df = ratings_df[ratings_df['frequency'] > k]
+		ratings_df = ratings_df.drop(columns = ['frequency'], axis = 1)
+		return ratings_df
+
 	def get_popular_movies(ratings_df, k = 10):
 		popularity = ratings_df.groupby(['title'])['rating'].count()*ratings_df.groupby(['title'])['rating'].mean()
 		popularity = popularity.sort_values(ascending=False).head(50)
@@ -178,7 +191,9 @@ def main():
 		all = ['All']
 		all_genres = list(set([b for c in genres for b in c]))
 		return all_genres + all
-	
+	ratings_df = join_df(ratings_df, imdb_df, movies_df)
+	ratings_df = prep(ratings_df)
+	ratings_df = count_df(ratings_df, 1000)
 	eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
         eda_selection = st.selectbox("Select feature to explore", eda)
         if eda_selection == "Latest Movies":
