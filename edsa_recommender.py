@@ -135,10 +135,10 @@ def main():
 
     if page_selection == "Explore the Data":
         def join_df(ratings_df, df1, df2):
-            ratings_df = ratings_df.join(df1, on = 'movieId', how = 'left')
-            ratings_df = ratings_df.join(df2, on = 'movieId', how = 'left')
-            ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
-            return ratings_df
+            df = df.join(df1, on = 'movieId', how = 'left')
+            df = df.join(df2, on = 'movieId', how = 'left')
+            df = df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
+            return df
         def get_cast(ratings_df):
             ratings_df = ratings_df.copy()
             ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
