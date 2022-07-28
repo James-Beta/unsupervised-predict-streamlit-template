@@ -134,116 +134,112 @@ def main():
 
 
     if page_selection == "Explore the Data":
-	def join_df(df, df1, df2):
-		ratings_df = df.join(df1, on = 'movieId', how = 'left')
-		ratings_df = ratings_df.join(df2, on = 'movieId', how = 'left')
-		ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1) 
-		return ratings_df
-	
-	def get_cast(ratings_df):
-		ratings_df = ratings_df.copy()
-		ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
-		ratings_df['title_cast'] = ratings_df['title_cast'].map(lambda x: x.split('|'))
-		return ratings_df
-	def get_genres(ratings_df):
-		ratings_df['genres'] = ratings_df['genres'].map(lambda x: x.split('|'))
-		return ratings_df
-	def genre_list(ratings_df):
-		genres = ratings_df['genres'].to_list()
-		all = ['All']
-		all_genres = list(set([b for c in genres for b in c]))
-		return all_genres + all
-	def latest_movies(ratings_df):
-		ratings_df = ratings_df.copy()
-		years = [x for x in ratings_df['release_year']]
-		years = years.sort(reverse=True)
-		latest_year = years[0]
-		ratings_df = ratings_df[ratings_df['release_year'] == latest_year]
-		return ratings_df
-	def get_release_years(ratings_df):
-		ratings_df['release_year'] = ratings_df['title'].map(lambda x: re.findall('\d\d\d\d', x))
-		ratings_df['release_year'] = ratings_df['release_year'].apply(lambda x: np.nan if not x else int(x[-1]))
-		return ratings_df
-	def prep(ratings_df):
-		ratings_df = get_cast(ratings_df)
-		ratings_df = get_genres(ratings_df)
-		ratings_df = get_genres(ratings_df)
-		ratings_df = get_release_years(ratings_df)
-		return ratings_df
-	def count_df(ratings_df, k):
-		ratings_df = ratings_df.dropna()
-		ratings_df['frequency'] = ratings_df.groupby('title')['title'].transform('count')
-		ratings_df = ratings_df[ratings_df['frequency'] > k]
-		ratings_df = ratings_df.drop(columns = ['frequency'], axis = 1)
-		return ratings_df
-
-	def get_popular_movies(ratings_df, k = 10):
-		popularity = ratings_df.groupby(['title'])['rating'].count()*ratings_df.groupby(['title'])['rating'].mean()
-		popularity = popularity.sort_values(ascending=False).head(50)
-		pop = popularity[:k].index.to_list()
-		return pop
-	def get_pop_directors(ratings_df, k = 20):
-		ratings_df_dir = ratings_df.groupby(['director'])['rating'].mean().sort_values(ascending = False)
-		top_dir = ratings_df_dir[0:k].index.to_list()
-		return top_dir
-	def year_list(ratings_df):
-		genres = ratings_df['release_year'].to_list()
-		all = ['All']
-		all_genres = list(set([b for c in genres for b in c]))
-		return all_genres + all
-	ratings_df = join_df(ratings_df, imdb_df, movies_df)
-	ratings_df = prep(ratings_df)
-	ratings_df = count_df(ratings_df, 1000)
-	eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
+        def join_df(df, df1, df2):
+            ratings_df = df.join(df1, on = 'movieId', how = 'left')
+            ratings_df = ratings_df.join(df2, on = 'movieId', how = 'left')
+            ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
+            return ratings_df
+        def get_cast(ratings_df):
+            ratings_df = ratings_df.copy()
+            ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
+            ratings_df['title_cast'] = ratings_df['title_cast'].map(lambda x: x.split('|'))
+            return ratings_df
+        def get_genres(ratings_df):
+            ratings_df['genres'] = ratings_df['genres'].map(lambda x: x.split('|'))
+            return ratings_df
+        def genre_list(ratings_df):
+            genres = ratings_df['genres'].to_list()
+            all = ['All']
+            all_genres = list(set([b for c in genres for b in c]))
+            return all_genres + all
+        def latest_movies(ratings_df):
+            ratings_df = ratings_df.copy()
+            years = [x for x in ratings_df['release_year']]
+            years = years.sort(reverse=True)
+            latest_year = years[0]
+            ratings_df = ratings_df[ratings_df['release_year'] == latest_year]
+            return ratings_df
+        def get_release_years(ratings_df):
+            ratings_df['release_year'] = ratings_df['title'].map(lambda x: re.findall('\d\d\d\d', x))
+            ratings_df['release_year'] = ratings_df['release_year'].apply(lambda x: np.nan if not x else int(x[-1]))
+            return ratings_df
+        def prep(ratings_df):
+            ratings_df = get_cast(ratings_df)
+            ratings_df = get_genres(ratings_df)
+            ratings_df = get_genres(ratings_df)
+            ratings_df = get_release_years(ratings_df)
+            return ratings_df
+        def count_df(ratings_df, k = 1000):
+            ratings_df = ratings_df.dropna()
+            ratings_df['frequency'] = ratings_df.groupby('title')['title'].transform('count')
+            ratings_df = ratings_df[ratings_df['frequency'] > k]
+            ratings_df = ratings_df.drop(columns = ['frequency'], axis = 1)
+            return ratings_df
+        def get_popular_movies(ratings_df, k = 10):
+            popularity = ratings_df.groupby(['title'])['rating'].count()*ratings_df.groupby(['title'])['rating'].mean()
+            popularity = popularity.sort_values(ascending=False).head(50)
+            pop = popularity[:k].index.to_list()
+            return pop
+        def get_pop_directors(ratings_df, k = 20):
+            ratings_df_dir = ratings_df.groupby(['director'])['rating'].mean().sort_values(ascending = False)
+            top_dir = ratings_df_dir[0:k].index.to_list()
+            return top_dir
+        def year_list(ratings_df):
+            genres = ratings_df['release_year'].to_list()
+            all = ['All']
+            all_genres = list(set([b for c in genres for b in c]))
+            return all_genres + all
+        ratings_df = join_df(ratings_df, imdb_df, movies_df)
+        ratings_df = prep(ratings_df)
+        ratings_df = count_df(ratings_df, 1000)
+        eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
         eda_selection = st.selectbox("Select feature to explore", eda)
         if eda_selection == "Latest Movies":
-		ratings_df_copy = ratings_df.copy()
-		ratings1_df = latest_movies(ratings_df_copy)
-		st.title("Latest Movies")
-		st.write("Explore movies released within the last year")
-		gen = genre_list(ratings1_df)
-		genre = st.selectbox("Select genre to explore", gen)
-		if genre != "All":
-			ratings1_df = ratings1_df[[genre in x for x in list(ratings1_df['genres'])]]
-		dir = get_pop_directors(ratings1_df, k = 20)
-                director = st.selectbox("Select Director:", dir)
-                if director != "ALL":
-			ratings_df1 = ratings1_df[ratings1_df['director'] == director]
-
-		
+            ratings_df_copy = ratings_df.copy()
+            ratings1_df = latest_movies(ratings_df_copy)
+            st.title("Latest Movies")
+            st.write("Explore movies released within the last year")
+            gen = genre_list(ratings1_df)
+            genre = st.selectbox("Select genre to explore", gen)
+            if genre != "All":
+                ratings1_df = ratings1_df[[genre in x for x in list(ratings1_df['genres'])]]
+            dir = get_pop_directors(ratings1_df, k = 20)
+            director = st.selectbox("Select Director:", dir)
+            if director != "ALL":
+                ratings_df1 = ratings1_df[ratings1_df['director'] == director]
         if eda_selection == "Popular Movies":
-		st.title("Popular Movies")
-		st.write("")
-		ratings_df2 = ratings_df.copy()
-		gen = genre_list(ratings_df2)
-		genre = st.selectbox("Select genre to explore", gen)
-		if genre != "All":
-			ratings_df2 = ratings_df2[[genre in x for x in list(ratings_df2['genres'])]]
-		dir = get_pop_directors(ratings_df2, k = 20)
-                director = st.selectbox("Select Director:", dir)
-                if director != "ALL":
-			ratings_df2 = ratings_df2[ratings_df2['director'] == director]
-		yr = year_list(ratings_df)
-		year = st.selectbox("Select release year:", yr)
-		if year != 'All':
-			ratings_df2 = ratings_df2[ratings_df2['release_year'] == year]
-		pop_mov = get_popular_movies(ratings_df2, k = 10)
-		st.subheader("The Top 10 most popular movies are:")
-		for i,j in enumerate(pop_mov):
-			st.write(str(i+1)+'. '+j)
+            st.title("Popular Movies")
+            st.write("")
+            ratings_df2 = ratings_df.copy()
+            gen = genre_list(ratings_df2)
+            genre = st.selectbox("Select genre to explore", gen)
+            if genre != "All":
+                ratings_df2 = ratings_df2[[genre in x for x in list(ratings_df2['genres'])]]
+            dir = get_pop_directors(ratings_df2, k = 20)
+            director = st.selectbox("Select Director:", dir)
+            if director != "ALL":
+                ratings_df2 = ratings_df2[ratings_df2['director'] == director]
 
+            yr = year_list(ratings_df)
+            year = st.selectbox("Select release year:", yr)
+            if year != 'All':
+                ratings_df2 = ratings_df2[ratings_df2['release_year'] == year]
+            pop_mov = get_popular_movies(ratings_df2, k = 10)
+            st.subheader("The Top 10 most popular movies are:")
+            for i,j in enumerate(pop_mov):
+                st.write(str(i+1)+'. '+j)
         if eda_selection == "Popular Directors":
-		st.title("Popular Directors")
-		st.write("Discover more about your favourite directors")
-		ratings_df3 = ratings_df.copy()
-		gen = genre_list(ratings_df3)
-		genre = st.selectbox("Select genre to explore", gen)
-		if genre != "All":
-			ratings_df3 = ratings_df3[[genre in x for x in list(ratings_df3['genres'])]]
-		yr = year_list(ratings_df3)
-		year = st.selectbox("Select release year:", yr)
-		if year != 'All':
-			ratings_df3 = ratings_df3[ratings_df3['release_year'] == year]
+            st.title("Popular Directors")
+            st.write("Discover more about your favourite directors")
+            ratings_df3 = ratings_df.copy()
+            gen = genre_list(ratings_df3)
+            genre = st.selectbox("Select genre to explore", gen)
+            if genre != "All":
+                ratings_df3 = ratings_df3[[genre in x for x in list(ratings_df3['genres'])]]
+            yr = year_list(ratings_df3)
+            year = st.selectbox("Select release year:", yr)
+            if year != 'All':
+                ratings_df3 = ratings_df3[ratings_df3['release_year'] == year]
 
 
 
