@@ -60,7 +60,7 @@ def content_model(movie_list,top_n=10):
     # Split genre data into individual words.
     movies['keyWords'] = movies['genres'].str.replace('|', ' ')
     # Subset of the data
-    data = movies[0:30000]
+    data = movies[13000:27000]
 
     # Instantiating and generating the count matrix
     count_vec = CountVectorizer()
