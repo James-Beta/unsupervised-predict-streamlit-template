@@ -141,9 +141,9 @@ def main():
             st.image(image)
             st.write("Content-based filtering attempts to guess what a user may like based on that user's activity. The algorithm makes recommendations by using keywords and attributes assigned to objects in a database (e.g., genre and director) and matching them to a user profile.")
             st.write("The user profile is created based on data derived from a user’s actions, such as ratings, movies searched for, and clicks on movie links.")
-            st.write("We deplored Singular Value decomposition (SVD: Collaborative model based filtering recommender system) algorithm since it generally perform better on large datasets compared to some other models as it decomposes a matrix into constituents arrays of feature vectors corresponding to each row and each column.")
-            st.write("There are a number of algorithms that are promising new frontiers in terms of optimizing recommendation systems")
-            st.write("In future we plan to implement deep learning and hybrid recommender system.")
+        st.write("We deplored Singular Value decomposition (SVD: Collaborative model based filtering recommender system) algorithm since it generally perform better on large datasets compared to some other models as it decomposes a matrix into constituents arrays of feature vectors corresponding to each row and each column.")
+        st.write("There are a number of algorithms that are promising new frontiers in terms of optimizing recommendation systems")
+        st.write("In future we plan to implement deep learning and hybrid recommender system.")
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
     if page_selection == "Welcome":
