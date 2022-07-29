@@ -240,7 +240,7 @@ def eda2():
             years_df = pd.DataFrame(count)
             st.bar_chart(years_df)
         else:
-            st.subheader(dir_years[0])
+            st.subheader(f"{len(dir_years)} movies in {dir_years[0]}")
         cast = ratings_df1['genres'].to_list()
         cast_words = [b for c in cast for b in c]
         count = pd.Series(cast_words).value_counts()
