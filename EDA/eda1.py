@@ -236,7 +236,7 @@ def eda2():
         if len(list(set(dir_years)))>0:
             count = pd.Series(dir_years).value_counts()
             years_df = pd.DataFrame(count)
-            st.line_chart(years_df)
+            st.bar_chart(years_df)
         else:
             st.subheader(dir_years[0])
         cast = ratings_df1['genres'].to_list()
