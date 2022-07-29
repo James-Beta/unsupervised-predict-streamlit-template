@@ -32,11 +32,12 @@ st.set_page_config(layout='wide', initial_sidebar_state="collapsed")
 import pandas as pd
 import numpy as np
 import re
-
+from PIL import Image
 # Custom Libraries
 from utils.data_loader import load_movie_titles
 from recommenders.collaborative_based import collab_model
 from recommenders.content_based import content_model
+from EDA.eda1 import eda2
 import base64
 
 def add_bg_from_local(image_file):
@@ -67,7 +68,7 @@ def main():
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Solution Overview", "Welcome", "Explore the Movie Database"]
+    page_options = ["Recommender System","Welcome", "Overview", "Explore the Movie Database"]
 
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
@@ -122,156 +123,87 @@ def main():
     # -------------------------------------------------------------------
 
     # ------------- SAFE FOR ALTERING/EXTENSION -------------------
-    if page_selection == "Solution Overview":
+    if page_selection == "Overview":
         st.title("Solution Overview")
-        st.write("Describe your winning approach on this page")
-
+        #st.write("Describe your winning approach on this page")
+        st.write("The core of our solution; we looked into two approaches for our machine learning processes: Content-Based Filtering and Collaborative Filtering")
+        o1, o2 = st.columns(2)
+        with o1:
+            st.subheader("Collaborative filtering")
+            image = Image.open('resources/imgs/collab.jpg')
+            st.image(image)
+            st.write("Collaborative filtering is a technique that can filter out items that a user might like on the basis of reactions by similar users.")
+            st.write("It works by searching a large group of people and finding a smaller set of users with tastes similar to a particular user.")
+            st.write("It looks at the items they like and combines them to create a ranked list of suggestions.")
+        with o2:
+            st.subheader("Content-based Filtering")
+            image = Image.open('resources/imgs/content.jpg')
+            st.image(image)
+            st.write("Content-based filtering attempts to guess what a user may like based on that user's activity. The algorithm makes recommendations by using keywords and attributes assigned to objects in a database (e.g., genre and director) and matching them to a user profile.")
+            st.write("The user profile is created based on data derived from a user’s actions, such as ratings, movies searched for, and clicks on movie links.")
+            st.write("We deplored Singular Value decomposition (SVD: Collaborative model based filtering recommender system) algorithm since it generally perform better on large datasets compared to some other models as it decomposes a matrix into constituents arrays of feature vectors corresponding to each row and each column.")
+            st.write("There are a number of algorithms that are promising new frontiers in terms of optimizing recommendation systems")
+            st.write("In future we plan to implement deep learning and hybrid recommender system.")
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
     if page_selection == "Welcome":
-        st.title("Solution Overview")
-        st.write("Hello, welcome to S.H.U.J.A.A")
-        # logo =
-        # st.image(logo, use_column_width=auto)
-        st.title("Meet the team")
-        col1,col2,col3 = st.columns(3)
-        # with col1:
-        #     # image =
-        #     # st.image(Image, "Samson Oguntuwase")
-        # with col2:
-        #     # image =
-        #     # st.image(Image, "Humphrey Ojo")
-        # with col3:
-        #     # image =
-        #     # st.image(image, "Uchenna")
-        # col4,col5, col6 = st.columns(3)
-        # with col4:
-        #     # image =
-        #     # st.image(image, "James Beta")
-        # with col5:
-        #     # image =
-        #     # st.image(image, "Lista Abutto")
-        # with col6:
-            # image =
-            # st.image(image, "Joseph Aromeh")
+        st2, st3 = st.tabs(["Welcome", "Meet the team"])
+        with st2:
+            st.title("Hello, welcome to SHUJAA")
+            st.subheader('We integrate research into practical, relevant solutions to address business and societal challenges.')
+            st.title("The Recommender")
+            st.subheader('Digital Revolution has brought about the problem that can be best described as "Too much content, too little time".')
+            image = Image.open('resources/imgs/Background.jpg')
+            st.image(image, use_column_width = 'True')
+            st.subheader('This can make streaming feel like a chore when a user has to peruse through millions of movie titles, synopsis, or trailers to choose what to watch next.')
+            st.subheader('Recommender systems solve this issue by helping the user find items of their interest faster.')
+            st.subheader('The item provider gets a model that would ensure that movies are delivered to the right user. This is because the recommender system is modeled to;')
+            st.subheader('1. identify the most relevant products for each user')
+            st.subheader('2. Showcase personalized content to each user')
+            st.subheader('3. Suggest top offers and discounts to the right user')
+            st.subheader('It is inevitable that our recommender web application will improve user engagement on your platform which is guaranteed to cultivate repeat customers, brand advocacy from loyal customers, a stronger emotional connection, and lead to faster sales')
+
+
+        with st3:
+            st.subheader("Meet the team")
+            col1,col2 = st.columns(2)
+            with col1:
+                st.subheader("Samson Oguntuwase")
+                image = Image.open('resources/imgs/Samson.jpg')
+                st.image(image )
+                link = '[GitHub](http://github.com/sampsonola)'
+                st.markdown(link, unsafe_allow_html=True)
+
+            with col2:
+                st.subheader('Humphery Ojo')
+                image = Image.open('resources/imgs/Humphery.jpg')
+                st.image(image)
+                link = '[Kaggle](https://www.kaggle.com/princesarzy1st/competitions?tab=completed)'
+                st.markdown(link, unsafe_allow_html=True)
+            col4,col5, col6 = st.columns(3)
+            with col4:
+                st.subheader("James Beta")
+                image = Image.open('resources/imgs/James.jpg')
+                st.image(image)
+                link = '[GitHub](http://github.com/James-Beta)'
+                st.markdown(link, unsafe_allow_html=True)
+            with col5:
+                st.subheader("Lista Abutto")
+                image = Image.open('resources/imgs/Lista.jpg')
+                st.image(image)
+                link = '[GitHub](http://github.com/lista)'
+                st.markdown(link, unsafe_allow_html=True)
+            with col6:
+                st.subheader("Joseph Aromeh")
+                image = Image.open('resources/imgs/Joseph.jpg')
+                st.image(image)
+                link = '[GitHub](https://github.com/Romzy01)'
+                st.markdown(link, unsafe_allow_html=True)
 
     if page_selection == "Explore the Movie Database":
         st.subheader("Can't decide on what to watch yet?")
-        st.subheader("Let's look through some of the most popular movies.")
-        ratings_df = pd.read_csv('resources/data/ratings.csv', index_col='movieId')
-        movies_df =  pd.read_csv('resources/data/movies.csv', index_col='movieId')
-        imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
-        def get_cast(ratings_df):
-            ratings_df = ratings_df.copy()
-            ratings_df['title_cast'] = ratings_df['title_cast'].map(lambda x: x.split('|'))
-            return ratings_df
-        def get_genres(ratings_df):
-            ratings_df = ratings_df.copy()
-            ratings_df['genres'] = ratings_df['genres'].map(lambda x: x.split('|'))
-            return ratings_df
-        def genre_list(ratings_df):
-            ratings_df = ratings_df.copy()
-            genres = ratings_df['genres'].to_list()
-            all = ['All']
-            all_genres = list(set([b for c in genres for b in c]))
-            return all + all_genres
-        def latest_movies(ratings_df):
-            ratings_df = ratings_df.copy()
-            years = [x for x in ratings_df['release_year']]
-            years = years.sort(reverse=True)
-            latest_year = years[0]
-            ratings_df = ratings_df[ratings_df['release_year'] == latest_year]
-            return ratings_df
-        def get_release_years(ratings_df):
-            ratings_df = ratings_df.copy()
-            ratings_df['release_year'] = ratings_df['title'].map(lambda x: re.findall('\d\d\d\d', x))
-            ratings_df['release_year'] = ratings_df['release_year'].apply(lambda x: np.nan if not x else int(x[-1]))
-            return ratings_df
-        def prep(ratings_df):
-            df['title_cast'] = df['title_cast'].astype(str)
-            df['genres'] = df['genres'].astype(str)
-            df['director'] = df['director'].astype(str)
-            ratings_df = get_cast(ratings_df)
-            ratings_df = get_genres(ratings_df)
-            ratings_df = get_genres(ratings_df)
-            ratings_df = get_release_years(ratings_df)
-            return ratings_df
-        def count_df(ratings_df, k = 1000):
-            ratings_df = ratings_df.copy()
-            ratings_df = ratings_df.dropna()
-            ratings_df['frequency'] = ratings_df.groupby('title')['title'].transform('count')
-            ratings_df = ratings_df[ratings_df['frequency'] > k]
-            ratings_df = ratings_df.drop(columns = ['frequency'], axis = 1)
-            return ratings_df
-        def get_popular_movies(ratings_df, k = 10):
-            popularity = ratings_df.groupby(['title'])['rating'].count()*ratings_df.groupby(['title'])['rating'].mean()
-            popularity = popularity.sort_values(ascending=False).head(50)
-            pop = popularity[:k].index.to_list()
-            return pop
-        def get_pop_directors(ratings_df, k = 20):
-            ratings_df_dir = ratings_df.groupby(['director'])['rating'].mean().sort_values(ascending = False)
-            top_dir = ratings_df_dir[0:k].index.to_list()
-            return top_dir
-        def year_list(ratings_df):
-            genres = ratings_df['release_year'].to_list()
-            all = ['All']
-            all_genres = list(set([b for c in genres for b in c]))
-            return all + all_genres
-        ratings_df = ratings_df.join(imdb_df, on = 'movieId', how = 'left')
-        ratings_df = ratings_df.join(movies_df, on = 'movieId', how = 'left')
-        ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
-        ratings_df = prep(ratings_df)
-        ratings_df = count_df(ratings_df, 1000)
-        eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
-        eda_selection = st.selectbox("Select feature to explore", eda)
-        if eda_selection == "Latest Movies":
-            ratings_df_copy = ratings_df.copy()
-            ratings1_df = latest_movies(ratings_df_copy)
-            st.title("Latest Movies")
-            st.write("Explore movies released within the last year")
-            gen = genre_list(ratings1_df)
-            genre = st.selectbox("Select genre to explore", gen)
-            if genre != "All":
-                ratings1_df = ratings1_df[[genre in x for x in list(ratings1_df['genres'])]]
-            dir = get_pop_directors(ratings1_df, k = 20)
-            director = st.selectbox("Select Director:", dir)
-            if director != "ALL":
-                ratings_df1 = ratings1_df[ratings1_df['director'] == director]
-        if eda_selection == "Popular Movies":
-            st.title("Popular Movies")
-            st.write("")
-            ratings_df2 = ratings_df.copy()
-            gen = genre_list(ratings_df2)
-            genre = st.selectbox("Select genre to explore", gen)
-            if genre != "All":
-                ratings_df2 = ratings_df2[[genre in x for x in list(ratings_df2['genres'])]]
-            dir = get_pop_directors(ratings_df2, k = 20)
-            director = st.selectbox("Select Director:", dir)
-            if director != "ALL":
-                ratings_df2 = ratings_df2[ratings_df2['director'] == director]
-
-            yr = year_list(ratings_df)
-            year = st.selectbox("Select release year:", yr)
-            if year != 'All':
-                ratings_df2 = ratings_df2[ratings_df2['release_year'] == year]
-            pop_mov = get_popular_movies(ratings_df2, k = 10)
-            st.subheader("The Top 10 most popular movies are:")
-            for i,j in enumerate(pop_mov):
-                st.write(str(i+1)+'. '+j)
-        if eda_selection == "Popular Directors":
-            st.title("Popular Directors")
-            st.write("Discover more about your favourite directors")
-            ratings_df3 = ratings_df.copy()
-            gen = genre_list(ratings_df3)
-            genre = st.selectbox("Select genre to explore", gen)
-            if genre != "All":
-                ratings_df3 = ratings_df3[[genre in x for x in list(ratings_df3['genres'])]]
-            yr = year_list(ratings_df3)
-            year = st.selectbox("Select release year:", yr)
-            if year != 'All':
-                ratings_df3 = ratings_df3[ratings_df3['release_year'] == year]
-
-
+        st.subheader("Let's look into the library and find something entertaining for you.")
+        eda2()
 
 if __name__ == '__main__':
     main()
