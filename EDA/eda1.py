@@ -230,6 +230,7 @@ def eda2():
         ratings_df3 = ratings_df3[ratings_df3['director'] == director]
         runtime = list(set(ratings_df3['runtime']))
         runtime = (sum(runtime))/60
+        runtime = round(runtime, 1)
         st.subheader(f"You have {runtime} hours of content from {director}")
         st.subheader(f"{director} has been most active in the following years")
         active_years = ratings_df3['release_year'].to_list()
