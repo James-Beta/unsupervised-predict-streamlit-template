@@ -27,7 +27,7 @@
 """
 # Streamlit dependencies
 import streamlit as st
-st.set_page_config(layout='wide')
+st.set_page_config(layout='wide', initial_sidebar_state="collapsed")
 # Data handling dependencies
 import pandas as pd
 import numpy as np
@@ -131,14 +131,36 @@ def main():
     if page_selection == "Welcome":
         st.title("Solution Overview")
         st.write("Hello, welcome to S.H.U.J.A.A")
+        # logo =
+        # st.image(logo, use_column_width=auto)
+        st.title("Meet the team")
+        col1,col2,col3 = st.columns(3)
+        # with col1:
+        #     # image =
+        #     # st.image(Image, "Samson Oguntuwase")
+        # with col2:
+        #     # image =
+        #     # st.image(Image, "Humphrey Ojo")
+        # with col3:
+        #     # image =
+        #     # st.image(image, "Uchenna")
+        # col4,col5, col6 = st.columns(3)
+        # with col4:
+        #     # image =
+        #     # st.image(image, "James Beta")
+        # with col5:
+        #     # image =
+        #     # st.image(image, "Lista Abutto")
+        # with col6:
+            # image =
+            # st.image(image, "Joseph Aromeh")
 
-
-    if page_selection == "Explore the Data":
-        def join_df(ratings_df, df1, df2):
-            df = df.join(df1, on = 'movieId', how = 'left')
-            df = df.join(df2, on = 'movieId', how = 'left')
-            df = df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
-            return df
+    if page_selection == "Explore the Movie Database":
+        st.subheader("Can't decide on what to watch yet?")
+        st.subheader("Let's look through some of the most popular movies.")
+        ratings_df = pd.read_csv('resources/data/ratings.csv', index_col='movieId')
+        movies_df =  pd.read_csv('resources/data/movies.csv', index_col='movieId')
+        imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
         def get_cast(ratings_df):
             ratings_df = ratings_df.copy()
             ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
@@ -151,7 +173,7 @@ def main():
             genres = ratings_df['genres'].to_list()
             all = ['All']
             all_genres = list(set([b for c in genres for b in c]))
-            return all_genres + all
+            return all + all_genres
         def latest_movies(ratings_df):
             ratings_df = ratings_df.copy()
             years = [x for x in ratings_df['release_year']]
@@ -188,8 +210,10 @@ def main():
             genres = ratings_df['release_year'].to_list()
             all = ['All']
             all_genres = list(set([b for c in genres for b in c]))
-            return all_genres + all
-        ratings_df = join_df(ratings_df, imdb_df, movies_df)
+            return all + all_genres
+        ratings_df = ratings_df.join(imdb_df, on = 'movieId', how = 'left')
+        ratings_df = ratings_df.join(movies_df, on = 'movieId', how = 'left')
+        ratings_df = ratings_df.drop(columns = ['timestamp', 'runtime', 'budget'], axis = 1)
         ratings_df = prep(ratings_df)
         ratings_df = count_df(ratings_df, 1000)
         eda = ["Latest Movies", "Popular Movies", "Popular Directors"]
