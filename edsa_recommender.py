@@ -67,7 +67,7 @@ def main():
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Solution Overview", "Welcome", "Explore the Movie Database"]
+    page_options = ["Recommender System","Solution Overview", "Welcome", "Explore the Data"]
 
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
@@ -163,13 +163,14 @@ def main():
         imdb_df =  pd.read_csv('resources/data/imdb_data.csv', index_col='movieId')
         def get_cast(ratings_df):
             ratings_df = ratings_df.copy()
-            ratings_df['title_cast'] = ratings_df['title_cast'].astype(str)
             ratings_df['title_cast'] = ratings_df['title_cast'].map(lambda x: x.split('|'))
             return ratings_df
         def get_genres(ratings_df):
+            ratings_df = ratings_df.copy()
             ratings_df['genres'] = ratings_df['genres'].map(lambda x: x.split('|'))
             return ratings_df
         def genre_list(ratings_df):
+            ratings_df = ratings_df.copy()
             genres = ratings_df['genres'].to_list()
             all = ['All']
             all_genres = list(set([b for c in genres for b in c]))
@@ -182,16 +183,21 @@ def main():
             ratings_df = ratings_df[ratings_df['release_year'] == latest_year]
             return ratings_df
         def get_release_years(ratings_df):
+            ratings_df = ratings_df.copy()
             ratings_df['release_year'] = ratings_df['title'].map(lambda x: re.findall('\d\d\d\d', x))
             ratings_df['release_year'] = ratings_df['release_year'].apply(lambda x: np.nan if not x else int(x[-1]))
             return ratings_df
         def prep(ratings_df):
+            df['title_cast'] = df['title_cast'].astype(str)
+            df['genres'] = df['genres'].astype(str)
+            df['director'] = df['director'].astype(str)
             ratings_df = get_cast(ratings_df)
             ratings_df = get_genres(ratings_df)
             ratings_df = get_genres(ratings_df)
             ratings_df = get_release_years(ratings_df)
             return ratings_df
         def count_df(ratings_df, k = 1000):
+            ratings_df = ratings_df.copy()
             ratings_df = ratings_df.dropna()
             ratings_df['frequency'] = ratings_df.groupby('title')['title'].transform('count')
             ratings_df = ratings_df[ratings_df['frequency'] > k]
