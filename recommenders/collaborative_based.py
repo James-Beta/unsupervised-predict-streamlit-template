@@ -140,9 +140,9 @@ def collab_model(movie_list,top_n=10):
     #Create pivot table
     util_matrix = df_init_users.pivot_table(index=['userId'], columns=['movieId'], values='rating')
     # Fill Nan values with 0's and save the utility matrix in scipy's sparse matrix format
-    avg_ratings = util_matrix.mean(axis=1)
-    # Center each users ratings around 0
-    util_matrix = util_matrix.sub(avg_ratings, axis=0)
+#     avg_ratings = util_matrix.mean(axis=1)
+#     # Center each users ratings around 0
+#     util_matrix = util_matrix.sub(avg_ratings, axis=0)
     util_matrix = util_matrix.fillna(0, inplace=True)
     util_matrix_sparse = sp.sparse.csr_matrix(util_matrix.values)
     # Compute the similarity matrix using the cosine similarity metric
