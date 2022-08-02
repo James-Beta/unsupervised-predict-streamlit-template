@@ -128,21 +128,18 @@ def collab_model(movie_list,top_n=10):
     df_init_users = ratings_df[ratings_df['userId']==users_ids[0]]
     for i in users_ids[1:]:
         df_init_users = df_init_users.append(ratings_df[ratings_df['userId']==i])
-    # Include predictions for chosen movies
-    # for j in movie_list:
-    #     a = pd.DataFrame(prediction_item(j))
-    #     for i in set(df_init_users['userId']):
-    #         mid = indices[indices == j].index[0]
-    #         est = a['est'][a['uid']==i].values[0]
-    #         df_init_users = df_init_users.append(pd.Series([int(i),int(mid),est], index=['userId','movieId','rating']), ignore_index=True)
-    # Remove duplicate entries
+    #Include predictions for chosen movies
+    for j in movie_list:
+        a = pd.DataFrame(prediction_item(j))
+        for i in set(df_init_users['userId']):
+            mid = indices[indices == j].index[0]
+            est = a['est'][a['uid']==i].values[0]
+            df_init_users = df_init_users.append(pd.Series([int(i),int(mid),est], index=['userId','movieId','rating']), ignore_index=True)
+    #Remove duplicate entries
     df_init_users.drop_duplicates(inplace=True)
     #Create pivot table
     util_matrix = df_init_users.pivot_table(index=['userId'], columns=['movieId'], values='rating')
     # Fill Nan values with 0's and save the utility matrix in scipy's sparse matrix format
-#     avg_ratings = util_matrix.mean(axis=1)
-#     # Center each users ratings around 0
-#     util_matrix = util_matrix.sub(avg_ratings, axis=0)
     util_matrix = util_matrix.fillna(0, inplace=True)
     util_matrix_sparse = sp.sparse.csr_matrix(util_matrix.values)
     # Compute the similarity matrix using the cosine similarity metric
